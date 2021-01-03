@@ -1,8 +1,8 @@
 ---
 layout: page
-title: projects
+title: Projects
 permalink: /projects/
-description: Various projects.
+description: The data science related projects will be posted here soon enough.
 nav: true
 ---
 
