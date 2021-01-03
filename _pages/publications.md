@@ -3,7 +3,7 @@ layout: page
 permalink: /publications/
 title: Publications
 description: My academic work.
-years: [2020]
+years: [2019]
 nav: true
 ---
 
