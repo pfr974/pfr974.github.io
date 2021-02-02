@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<title>Eight Sense | Eight Sense</title>
+<title>Eight Sense | Topic modeling and Magic: The Gathering (Part 1)</title>
 <meta name="description" content="Just some of my random thoughts. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
 
@@ -23,7 +23,7 @@
 <link rel="shortcut icon" href="/assets/img/favicon.ico">
 <link rel="stylesheet" href="/assets/css/main.css">
 
-<link rel="canonical" href="/blog/">
+<link rel="canonical" href="/blog/2021/mtg-archetypes-part1/">
 
 <!-- Open Graph -->
 
@@ -113,26 +113,29 @@
     <!-- Content -->
 
     <div class="container mt-5">
-      <div class="post">
+      
 
-  <div class="header-bar">
-    <h1>Eight Sense</h1>
-    <h2>Just some of my random thoughts</h2>
-  </div>
+<div class="post">
 
+  <header class="post-header">
+    <h1 class="post-title">Topic modeling and Magic: The Gathering (Part 1)</h1>
+    <p class="post-meta">February 2, 2021</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <h3><a class="post-title" href="/blog/2021/mtg-archetypes-part1/">Topic modeling and Magic: The Gathering (Part 1)</a></h3>
-        <p class="post-meta">February 2, 2021</p>
-        <p></p>
-      </li>
-    
-  </ul>
+  <article class="post-content">
+    <p>Lately, I have been interested in <strong>Natural Language Processing techniques (NLP)</strong> and <strong>Topic Modeling</strong>. Topic Modeling identifies recurrent themes (<strong>topics</strong>) from a collection of documents (<strong>corpus</strong>). Consider, for instance, a set of newspaper articles. For tech articles, words that may occur more often than others could be: cloud, system, network, streaming. Likewise, for sports articles: goal, score, points, players, team, coach. We get the idea that it is possible to organize a corpus of news and sort it into topics: sport, technology, media, fashion, current affairs, etc.</p>
+
+<p>Among the different methods available for topic modeling, there is a method called <strong>Latent Dirichlet allocation (LDA)</strong>. In the context of machine learning, LDA was proposed by <a href="https://dl.acm.org/doi/10.5555/944919.944937"><strong>Blei et al. 2003</strong></a>. As far as I understand, it is a <strong>probabilistic</strong> and <strong>unsupervised</strong> algorithm that assumes that a document is a mixture of topics. However, bear in mind that LDA does not return how many topics there are for a corpus and does not name them. You have to give as an input how many topics you think there are in the corpus. LDA will return unnamed topics in the form of <strong>a list of weighted words</strong>, and from those, you will have their name.</p>
+
+<p>Now how can we use the LDA algorithm? One of my hobbies is the collectible card game <a href="https://magic.wizards.com/en/articles">Magic: The Gathering</a>. I started to play around 2000, and after a long break, I got back at it in 2018. It is a fascinating game and I believe that there is a lot on interesting thing to write about it in terms of data analysis. I also remember <a href="https://towardsdatascience.com/finding-magic-the-gathering-archetypes-with-latent-dirichlet-allocation-729112d324a6">interesting article from 2017</a> where the author used LDA to establish deck archetypes.</p>
+
+<p>In MTG, <strong>an archetype corresponds to the strategy used to win with a particular deck</strong>. For instance, <strong>Control</strong> decks are all about <strong>disrupting and stalling your opponent’s actions</strong>: countering spells, discarding cards from their hand, destroying or exiling their creatures, etc. Moreover, not all control decks are the same. You will find Mono-Blue Control decks, Blue White (UW) Control decks, Mono-Black Control, and so on. You could call them <strong>sub-archetypes</strong>. Given the longevity of the game (<strong>28 years</strong>), its card pool (<strong>20000+</strong>), and its different formats (<strong>officially 7</strong>), you probably guess that there are quite a lot of them. When reading a decklist, experienced players can narrow down to which archetype it corresponds to just based on a few cards. For instance, one of my favorite archetypes, Tron, can be described roughly with four cards: <a href="https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=491334">Karn Liberated</a>, <a href="https://gatherer.wizards.com/pages/card/Details.aspx?multiverseid=45464">Urza’s Mine</a>, <a href="https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=45468">Urza’s Tower</a> and <a href="https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=45470">Urza’s Power Plant</a>. Therefore, if I see a decklist with these cards in, it is safe to assume that it is a Tron deck.</p>
+
+<p>From the paragraph above, we have set the scene for the next upcoming posts. We will use <strong>topic modeling to find archetypes in a dataset containing thousands of MTG decklists</strong>. We have a corpus of documents (the decklists), topics (archetypes), a vocabulary of words (card names), and a model (LDA). Even better, we have a starting point with the 2017 article! Also, note that since LDA returns unnamed topics, I will for sure test my MTG knowledge to see if they make any sense. What’s better than spending time looking at cards ((“Ｑ(´▽｀｡)?</p>
+
+  </article>
 
   
-
 
 </div>
 
