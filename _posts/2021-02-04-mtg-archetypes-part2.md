@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Topic modeling and Magic: The Gathering (Part 2)"
-date:   2021-04-02
+date:   2021-02-04
 ---
 
 # Topic modelling and Magic: The Gathering (Part 2)
@@ -189,6 +189,7 @@ Let's check some other archetypes in the table below:
 | 0.029*Steel Overseer       |  0.019*Gaddock Teeg            | 0.026*Sling-Gang Lieutenant | 0.028*Brainstorm              |
 |                            |                                |                             |                               |
 | <b>Steel and Taxes</b>     | <b>Maverick</b>                | <b>Goblins</b>              | <b>Cephalid Breakfast</b>     |
+
 
 I am happy that among the achetypes discovered classics such as Goblins and Maverick are matched, but I am actually impressed that something such as Cephalid Breakfast can be matched! However there can be some surprising results such as Archetype 42 for instance:
 
