@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Eight Sense | Topic modeling and Magic: The Gathering (Part 2)</title>
+<meta name="description" content="Just some of my random thoughts. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+<!-- Bootstrap & MDB -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.17.0/css/mdb.min.css" integrity="sha256-/SwJ2GDcEt5382i8zqDwl36VJGECxEoIcBIuoLmLR4g=" crossorigin="anonymous" />
+
+<!-- Fonts & Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"  integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons">
+
+<!-- Styles -->
+<link rel="shortcut icon" href="/assets/img/favicon.ico">
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<link rel="canonical" href="/blog/2021/mtg-archetypes-part2/">
+
+<!-- Open Graph -->
+
+
+  </head>
+
+  <body class="fixed-top-nav ">
+
+    <!-- Header -->
+
+    <header>
+
+    <!-- Nav Bar -->
+    <nav id="navbar" class="navbar navbar-light bg-white navbar-expand-sm fixed-top">
+    <div class="container">
+      
+      
+      
+      
+      
+      <a class="navbar-brand title font-weight-lighter" href="https://pfr974.github.io/">
+       <span class="font-weight-bold">Eight</span>   Sense
+      </a>
+      
+      <!-- Navbar Toogle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">
+              about
+              
+            </a>
+          </li>
+          
+          <!-- Blog -->
+          <li class="nav-item active">
+            <a class="nav-link" href="/blog/">
+              blog
+              
+            </a>
+          </li>
+          
+          <!-- Other pages -->
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="nav-item ">
+              <a class="nav-link" href="/projects/">
+                Projects
+                
+              </a>
+          </li>
+          
+          
+          
+          <li class="nav-item ">
+              <a class="nav-link" href="/publications/">
+                Publications
+                
+              </a>
+          </li>
+          
+          
+          
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+</header>
+
+
+    <!-- Content -->
+
+    <div class="container mt-5">
+      
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Topic modeling and Magic: The Gathering (Part 2)</h1>
+    <p class="post-meta">February 5, 2021</p>
+  </header>
+
+  <article class="post-content">
+    <p>In the previous blog post, I introduced how it is possible to use topic modeling to find MTG archetypes with <strong>Latent Dirichlet allocation (LDA)</strong>. The code to do so is available on my <a href="https://github.com/pfr974/topic_modeling_mtg">GitHub</a>.  <a href="/assets/html/LDA_Visualization_legacy_2020_74_archetypes.html" target="_blank"><b>To visualise the 74 archetypes found, click here</b></a>. Let me now guide you through the notebook and discuss the results.</p>
+
+<h2 id="gathering-and-processing-the-data">Gathering and processing the data</h2>
+
+<p>The data analyzed in this post consists of 3718 Legacy decklists registered in 2020 on <a href="https://www.mtgtop8.com">mtgtop8</a>. To obtain these decklists, I scrapped the content of mtgtop8; see the <a href="https://github.com/pfr974/spider_mtg">spider_mtg repo</a> for more details. The decklists are stored in a single file, one decklist per line. We have 75 cards in a deck with 60 cards mainboard and 15 cards sideboard:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"3  Bayou 1  Dryad Arbor 2  Marsh Flats 3  Misty Rainforest 3  Polluted Delta 1  Snow-Covered Swamp 3  Underground Sea 4  Verdant Catacombs 4  Bloodghast 4  Gravecrawler 4  Hedron Crab 4  Hogaak, Arisen Necropolis 2  Putrid Imp 4  Stitcher\\'s Supplier 4  Vengevine 4  Cabal Therapy 2  Careful Study 4  Altar of Dementia 4  Bridge from Below 3  Chain of Vapor 4  Force of Vigor 4  Leyline of the Void 1  Oko, Thief of Crowns 3  Thoughtseize "
+</code></pre></div></div>
+<p>Our <strong>document</strong> here is a decklist such as the one above. The <strong>corpus</strong>, a collection of documents, consists of all the decklists. For the <strong>vocabulary</strong>, the set of all words used in the corpus, we want to associate each card name in it with a unique integer ID. We do this using <code><i>gensim.corpora.Dictionary</i></code>. Following the <a href="https://radimrehurek.com/gensim/auto_examples/core/run_corpora_and_vector_spaces.html">core concepts of gensim</a>, we take an extra step by constructing a dictionary without loading all the decklists into memory:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dictionary</span> <span class="o">=</span> <span class="n">gensim</span><span class="p">.</span><span class="n">corpora</span><span class="p">.</span><span class="n">Dictionary</span><span class="p">([</span><span class="n">x</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">r"[\d]+"</span><span class="p">,</span> <span class="n">line</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">))]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s">'single_legacy_2020.txt'</span><span class="p">))</span>
+<span class="n">once_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">tokenid</span> <span class="k">for</span> <span class="n">tokenid</span><span class="p">,</span> <span class="n">docfreq</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">dictionary</span><span class="p">.</span><span class="n">dfs</span><span class="p">)</span> <span class="k">if</span> <span class="n">docfreq</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">dictionary</span><span class="p">.</span><span class="n">filter_tokens</span><span class="p">(</span><span class="n">once_ids</span><span class="p">)</span>  <span class="c1"># remove cards that appear only once
+</span><span class="n">dictionary</span><span class="p">.</span><span class="n">compactify</span><span class="p">()</span>  <span class="c1"># remove gaps in id sequence after words that were removed
+</span></code></pre></div></div>
+
+<p>Likewise for the corpus,  we want it to be memory friendly. We define a class <strong>MyCorpus</strong>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyCorpus</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s">'single_legacy_2020.txt'</span><span class="p">):</span>
+            <span class="n">decklist</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span> <span class="c1"># remove start and end tokens
+</span>            <span class="n">decklist</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">r"([\d]+)"</span><span class="p">,</span> <span class="n">decklist</span><span class="p">)</span> <span class="c1"># split by numbers and card names
+</span>            <span class="n">decklist</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">decklist</span><span class="p">]</span> <span class="c1"># remove whitespace
+</span>            <span class="n">decklist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">decklist</span><span class="p">))</span> <span class="c1"># remove empty words
+</span>            <span class="n">cleaned_decklist</span> <span class="o">=</span> <span class="p">[]</span> 
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">decklist</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">decklist</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">])))):</span>
+                    <span class="n">cleaned_decklist</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">decklist</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">yield</span> <span class="n">dictionary</span><span class="p">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">cleaned_decklist</span><span class="p">)</span>
+    
+<span class="n">corpus_memory_friendly</span> <span class="o">=</span> <span class="n">MyCorpus</span><span class="p">()</span>
+</code></pre></div></div>
+<p>In the <code><i>__iter__</i></code> function, we retrieve and clean a list of tokens (card names) in each decklist. With the line <code><i>yield dictionary.doc2bow(cleaned_decklist)</i></code> we convert a list of tokenized card names via a dictionary to their ids and yield the resulting bag of words (bow) corpus. To simplify, here we are counting how many times a card name, via its id, appears in a decklist. If we were to add a <code><i>__print__</i></code> function for our <code><i>MyCorpus</i></code> object, we would see something like this for one decklist:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1), (13, 1), (14, 1), (15, 1), (16, 1), (17, 1), (18, 1), (19, 1), (20, 1), (21, 1), (22, 1), (23, 1), (24, 1)]
+</code></pre></div></div>
+
+<p>The first tuple tells you that the card with the ID 1 has been counted one time in the document. Note that for all these tuples, the second entry is always 1.  It is explained by how we created the cleaned list of tokenized card names in the snippet above.</p>
+
+<h2 id="lda-model">LDA model</h2>
+
+<p>Now that we have a corpus, we can proceed to transform it with the gensim LDA model:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">compute_models_coherence</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">corpus_memory_friendly</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="s">"""
+    Return topic modeling models and u_mass coherence values for various number of topics.
+    For more info about coherence, see:
+    - https://radimrehurek.com/gensim/models/coherencemodel.html
+    - https://towardsdatascience.com/evaluate-topic-model-in-python-latent-dirichlet-allocation-lda-7d57484bb5d0
+
+    Parameters:
+    ----------
+    dictionary : Gensim dictionary
+    corpus : Gensim corpus
+    model : the topic modeling model (lda or nmf)
+    start: Starting number of topics
+    limit : Max number of topics
+    step: increment
+
+    Returns:
+    -------
+    model_list : List of LDA or NMF topic models
+    coherence_values : u_mass Coherence values corresponding to the LDA or NMF model 
+    with respective number of topics
+    """</span>
+    
+    <span class="n">coherence_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">model_list</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># We set iterations and passes to the same number
+</span>    <span class="n">iterations</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="c1"># See https://groups.google.com/g/gensim/c/z0wG3cojywM to read about the difference between passes and iterations 
+</span>    
+    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># For reproductivity
+</span>    <span class="n">unique_cards</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dictionary</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span>
+    
+    <span class="k">if</span> <span class="n">model</span> <span class="o">==</span> <span class="s">'nmf'</span><span class="p">:</span>
+        
+        <span class="k">for</span> <span class="n">archetypes</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        
+            <span class="n">model</span><span class="o">=</span> <span class="n">Nmf</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus_memory_friendly</span><span class="p">,</span> <span class="n">num_topics</span><span class="o">=</span><span class="n">archetypes</span><span class="p">,</span><span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span><span class="n">chunksize</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+                                     <span class="n">passes</span><span class="o">=</span><span class="n">iterations</span><span class="p">,</span><span class="n">kappa</span><span class="o">=</span><span class="p">.</span><span class="mi">1</span><span class="p">,</span><span class="n">minimum_probability</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">w_max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                                     <span class="n">w_stop_condition</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span><span class="n">h_max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                     <span class="n">h_stop_condition</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span><span class="n">eval_every</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                     <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        
+            <span class="n">model_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="n">coherencemodel</span> <span class="o">=</span> <span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">corpus</span><span class="o">=</span><span class="n">corpus_memory_friendly</span><span class="p">,</span> 
+                                            <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">coherence</span><span class="o">=</span><span class="s">'u_mass'</span><span class="p">)</span>
+            <span class="n">coherence_values</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">coherencemodel</span><span class="p">.</span><span class="n">get_coherence</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">model</span> <span class="o">==</span> <span class="s">'lda'</span><span class="p">:</span>
+        
+        <span class="k">for</span> <span class="n">archetypes</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        
+            <span class="n">alpha_prior</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">archetypes</span><span class="p">]</span> <span class="o">*</span> <span class="n">archetypes</span>
+            <span class="n">beta_prior</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">archetypes</span><span class="p">]</span> <span class="o">*</span> <span class="n">unique_cards</span>
+        
+            <span class="n">model</span><span class="o">=</span><span class="n">gensim</span><span class="p">.</span><span class="n">models</span><span class="p">.</span><span class="n">ldamodel</span><span class="p">.</span><span class="n">LdaModel</span><span class="p">(</span><span class="n">corpus</span><span class="o">=</span><span class="n">corpus_memory_friendly</span><span class="p">,</span> <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span> 
+                                                  <span class="n">num_topics</span><span class="o">=</span><span class="n">archetypes</span><span class="p">,</span> <span class="n">passes</span><span class="o">=</span><span class="n">iterations</span><span class="p">,</span> 
+                                                  <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_prior</span><span class="p">,</span> <span class="n">eta</span> <span class="o">=</span> <span class="n">beta_prior</span><span class="p">)</span>
+            <span class="n">model_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="n">coherencemodel</span> <span class="o">=</span> <span class="n">CoherenceModel</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">corpus</span><span class="o">=</span><span class="n">corpus_memory_friendly</span><span class="p">,</span> 
+                                            <span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">coherence</span><span class="o">=</span><span class="s">'u_mass'</span><span class="p">)</span>
+            <span class="n">coherence_values</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">coherencemodel</span><span class="p">.</span><span class="n">get_coherence</span><span class="p">())</span>
+    
+    <span class="k">return</span> <span class="n">model_list</span><span class="p">,</span> <span class="n">coherence_values</span>
+
+<span class="n">model_list_lda</span><span class="p">,</span> <span class="n">coherence_values_lda</span> <span class="o">=</span> <span class="n">compute_coherence_values</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+                                                                <span class="n">corpus_memory_friendly</span> <span class="o">=</span> <span class="n">corpus_memory_friendly</span><span class="p">,</span> 
+                                                                <span class="n">model</span><span class="o">=</span><span class="s">'lda'</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>As stated in Part 1, LDA is a probabilistic and unsupervised algorithm that assumes that a document (decklist) is a mixture of topics (archetypes). An archetype obtained via LDA can be seen as a probability distribution over card names. What you get in the end is a list of weighted card names for each unnamed archetype that has been found. Moreover, you have to decide how many archetypes to find.</p>
+
+<p>To decide what was the best number of archetypes, I added in the <code><i>compute_models_coherence</i></code> function the notion of coherence. <strong>The coherence score allows to quantitatively evaluate how good a model is</strong>. At least, that’s how I understand it. I won’t go into details (for now) and suggest you read this <a href="https://towardsdatascience.com/evaluate-topic-model-in-python-latent-dirichlet-allocation-lda-7d57484bb5d0">short article</a> and <a href="http://svn.aksw.org/papers/2015/WSDM_Topic_Evaluation/public.pdf">this paper by Roeder et al.</a>. Please note that here, I am looking at tuning only one hyperparameter: the number of archetypes. If you read through the code snippet above, the <i>alpha_prior</i> and <i>beta_prior</i> are fixed for a given number of archetypes.</p>
+
+<h2 id="results">Results</h2>
+
+<p>The optimal number of archetypes is given by the plot below:</p>
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <img class="img-fluid rounded z-depth-1" src="/assets/img/plot_lda_coherence_74_topics.png" />
+    </div>
+</div>
+<div class="caption">
+    
+</div>
+
+<p><a href="https://gensimr.news-r.org/articles/coherence.html">Based on my understanding of the u_mass coherence score</a>, the lower a value is, the better the LDA model is. It seems then that <strong>74</strong> archetypes worked well.</p>
+
+<p>Now, let’s check the top 18 cards of one of the archetype discovered, Archetype 0:</p>
+
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+<table style="width:50%">
+  <tr>
+    <th style="text-align:center">Archetype 0</th>
+  </tr>
+  <tr>
+ <tr><td style="text-align:center">0.041*Dread Return</td></tr>
+ <tr><td style="text-align:center">0.041*Lotus Petal</td></tr>
+ <tr><td style="text-align:center">0.040*Cabal Therapy</td></tr>
+ <tr><td style="text-align:center">0.039*Narcomoeba</td></tr>
+ <tr><td style="text-align:center">0.039*Bridge from Below</td></tr>
+ <tr><td style="text-align:center">0.038*Golgari Grave-Troll</td></tr>
+ <tr><td style="text-align:center">0.038*Ichorid</td></tr>
+ <tr><td style="text-align:center">0.038*Golgari Thug</td></tr>
+ <tr><td style="text-align:center">0.038*Stinkweed Imp</td></tr>
+ <tr><td style="text-align:center">0.038*Lion's Eye Diamond</td></tr>
+ <tr><td style="text-align:center">0.037*Ashen Rider</td></tr>
+ <tr><td style="text-align:center">0.037*Gemstone Mine</td></tr>
+ <tr><td style="text-align:center">0.036*Cephalid Coliseum</td></tr>
+ <tr><td style="text-align:center">0.035*City of Brass</td></tr>
+ <tr><td style="text-align:center">0.035*Faithless Looting</td></tr>
+ <tr><td style="text-align:center">0.034*Hogaak, Arisen Necropolis</td></tr>
+ <tr><td style="text-align:center">0.032*Leyline of the Void</td></tr>
+ <tr><td style="text-align:center">0.032*Careful Study</td></tr>
+  </tr>
+</table>
+</body>
+</html>
+
+<p>If you want something more visual:</p>
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <img class="img-fluid rounded z-depth-1" src="/assets/img/archetype0_small.png" />
+    </div>
+</div>
+<div class="caption">
+    Some classic cards for Legacy Dredge displayed here.
+</div>
+
+<p>Well, our friend <i>Golgari Grave-Troll</i>, the word <i>dredge</i> and <i>Bridge from Below</i> tell us that Archetype 0 matches <a href="https://mtgdecks.net/Legacy/dredge-analysis-5400/all">Dredge</a>, an archetype so powerful that it creates its own rules ᕕ( ͡° ͜ʖ ͡° )ᕗ.</p>
+
+<p>We can check some other archetypes in the table below. I have indicated in the last row which archetype they match best:</p>
+
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+<table style="width:100%">
+  <tr>
+    <th style="text-align:center"><b>Archetype 14</b></th>
+    <th style="text-align:center"><b>Archetype 73</b></th>
+    <th style="text-align:center"><b>Archetype 17</b></th>
+    <th style="text-align:center"><b>Archetype 54</b></th>
+  </tr>
+  <tr>
+
+<tr>
+<td style="text-align:center">0.062*Phyrexian Revoker</td>    
+<td style="text-align:center">0.055*Green Sun's Zenit</td>      
+<td style="text-align:center">0.034*Goblin Trashmaste</td>     
+<td style="text-align:center">0.053*Thassa's Oracle</td>      
+</tr>
+<tr>
+<td style="text-align:center">0.043*Karn, Scion of Urza</td>   
+<td style="text-align:center">0.053*Dryad Arbor        </td>     
+<td style="text-align:center">0.032*Mountain           </td>    
+<td style="text-align:center">0.045*Aether Vial  </td>
+</tr>
+<tr>           
+<td style="text-align:center">0.040*Lodestone Golem    </td>   
+<td style="text-align:center">0.038*Collector Ouphe    </td>     
+<td style="text-align:center">0.031*Pyrokinesis        </td>    
+<td style="text-align:center">0.043*Force of Will    </td>
+</tr>
+<tr>       
+<td style="text-align:center">0.039*Stonecoil Serpent  </td>  
+<td style="text-align:center">0.037*Scavenging Ooze    </td>    
+<td style="text-align:center">0.031*Goblin Ringleader  </td>   
+<td style="text-align:center">0.039*Cabal Therapy</td>   
+</tr>
+<tr>        
+<td style="text-align:center">0.037*Wasteland        </td>     
+<td style="text-align:center">0.036*Savannah         </td>       
+<td style="text-align:center">0.031*Goblin Matron    </td>      
+<td style="text-align:center">0.039*Nomads en-Kor   </td>
+</tr>
+<tr>        
+<td style="text-align:center">0.036*Arcbound Ravager      </td>
+<td style="text-align:center">0.033*Wasteland             </td> 
+<td style="text-align:center">0.031*Cavern of Souls       </td>
+<td style="text-align:center">0.039*Cephalid Illusionist  </td>
+</tr>
+<tr>  
+<td style="text-align:center">0.034*Mishra's Factory   </td>   
+<td style="text-align:center">0.031*Sylvan Library       </td>   
+<td style="text-align:center">0.031*Goblin Cratermaker    </td> 
+<td style="text-align:center">0.037*Narcomoeba    </td>
+</tr>
+<tr>          
+<td style="text-align:center">0.034*Chalice of the Void </td>  
+<td style="text-align:center">0.029*Swords to Plowshares  </td>  
+<td style="text-align:center">0.031*Goblin Chainwhirler  </td>  
+<td style="text-align:center">0.037*Dread Return       </td>
+</tr>
+<tr>     
+<td style="text-align:center">0.034*Thorn of Amethyst     </td>
+<td style="text-align:center">0.028*Knight of the Reliquary </td>
+<td style="text-align:center">0.030*Goblin Lackey          </td>
+<td style="text-align:center">0.036*Shuko        </td>
+</tr>
+<tr>           
+<td style="text-align:center">0.033*Walking Ballista      </td>
+<td style="text-align:center">0.028*Windswept Heath       </td>  
+<td style="text-align:center">0.030*Goblin Warchief       </td> 
+<td style="text-align:center">0.035*Daze      </td>
+</tr>
+<tr>              
+<td style="text-align:center">0.033*Ancient Tomb         </td> 
+<td style="text-align:center">0.026*Karakas              </td>   
+<td style="text-align:center">0.028*Gempalm Incinerator  </td>  
+<td style="text-align:center">0.035*Underground Sea </td>
+</tr>
+<tr>        
+<td style="text-align:center">0.033*Umezawa's Jitte      </td> 
+<td style="text-align:center">0.026*Noble Hierarch       </td>   
+<td style="text-align:center">0.027*Aether Vial          </td>  
+<td style="text-align:center">0.034*Polluted Delta </td>
+</tr>
+<tr>         
+<td style="text-align:center">0.033*City of Traitors    </td>  
+<td style="text-align:center">0.025*Knight of Autumn    </td>    
+<td style="text-align:center">0.027*Wasteland           </td>   
+<td style="text-align:center">0.032*Flooded Strand  </td>
+</tr>
+<tr>        
+<td style="text-align:center">0.032*Mox Opal             </td> 
+<td style="text-align:center">0.023*Ramunap Excavator    </td>   
+<td style="text-align:center">0.027*Skirk Prospector     </td>  
+<td style="text-align:center">0.030*Stoneforge Mystic   </td>
+</tr>
+<tr>    
+<td style="text-align:center">0.031*Karakas  </td>             
+<td style="text-align:center">0.022*Forest     </td>             
+<td style="text-align:center">0.027*Badlands   </td>            
+<td style="text-align:center">0.030*Recruiter of the Guard </td>
+</tr>
+<tr> 
+<td style="text-align:center">0.031*Leyline of the Void  </td> 
+<td style="text-align:center">0.021*Questing Beast</td>          
+<td style="text-align:center">0.026*Rishadan Port   </td>       
+<td style="text-align:center">0.030*Batterskull   </td>  
+</tr>
+<tr>        
+<td style="text-align:center">0.031*Sorcerous Spyglass </td>   
+<td style="text-align:center">0.019*Verdant Catacombs  </td>     
+<td style="text-align:center">0.026*Munitions Expert </td>      
+<td style="text-align:center">0.029*Ponder </td>          
+</tr>
+<tr>       
+<td style="text-align:center">0.029*Steel Overseer    </td>    
+<td style="text-align:center">0.019*Gaddock Teeg  </td>          
+<td style="text-align:center">0.026*Sling-Gang Lieutenant  </td>
+<td style="text-align:center">0.028*Brainstorm </td>             
+</tr>
+  </tr>
+    <tr>
+    <th style="text-align:center"><b>Steel and Taxes</b></th>
+    <th style="text-align:center"><b>Maverick</b></th>
+    <th style="text-align:center"><b>Goblins</b></th>
+    <th style="text-align:center"><b>Cephalid Breakfast</b></th>
+  </tr>
+</table>
+</body>
+</html>
+
+<p>I am satisfied that among the archetypes discovered classics such as <a href="https://mtgdecks.net/Legacy/goblins">Goblins</a> and <a href="https://mtgdecks.net/Legacy/maverick-analysis-5498/all">Maverick</a> are matched. I was also impressed that the model managed to find something such as <a href="https://mtgdecks.net/Legacy/cephalid-breakfast-analysis-7834/all">Cephalid Breakfast</a>! However, there can be some surprising results such as Archetype 42 for instance:</p>
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <img class="img-fluid rounded z-depth-1" src="/assets/img/archetype42_small.png" />
+    </div>
+</div>
+<div class="caption">
+    Two goblins decided to trash the Rogue Party.
+</div>
+
+<p>Archetype 42 matches <a href="https://mtgdecks.net/Legacy/ub-rogues-analysis-9653/all">UB Rogues</a> except for two cards found usually in <a href="https://mtgdecks.net/Legacy/goblins">Goblins</a>: <i>Conspicuous Snoop</i> and <i>Boggart Harbinger</i>. Obviously, it is not too bad since two outliers out of 18 do not prevent identifying existing archetypes. However, it would be interesting to know why it happened.</p>
+
+<p>I do not claim to be an expert of the Legacy format but using my knowledge and <a href="https://mtgdecks.net/Legacy">mtgdecks.net</a>, I have checked personally <strong>44</strong> archetypes out of <strong>74</strong> and found <strong>36</strong> matches to existing archetypes. The <strong>8</strong>  remaining ones seem to be a mix of different existing archetypes.</p>
+
+<h2 id="visualising-the-results-with-pyldavis">Visualising the results with pyLDAvis</h2>
+
+<p>To make sense of the different archetypes found by our model, we need to go through them individually. With more than 50 topics, it can get tedious. Even more so when trying to see how different archetypes relate to each other. Fortunately, there is a Python library called <a href="https://pyldavis.readthedocs.io/en/latest/readme.html">pyLDAvis</a> that gives a two-dimensional representation of the topics/archetypes found. In the notebook this is achieved via the lines:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pyLDAvis.enable_notebook()
+gensim.corpora.MmCorpus.serialize('SerializedCorpus_legacy_2020_74_archetypes.mm'.format(i), corpus_memory_friendly)
+SerializedCorpus = gensim.corpora.MmCorpus('SerializedCorpus_legacy_2020_74_archetypes.mm'.format(i))
+vis_data = pyLDAvis.gensim.prepare(model_list_lda[-3], SerializedCorpus, dictionary,sort_topics=False)
+pyLDAvis.save_html(vis_data, 'LDA_Visualization_legacy_2020_74_archetypes.html'.format(i))
+</code></pre></div></div>
+
+<p>The archetypes are then represented like below:</p>
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <img class="img-fluid rounded z-depth-1" src="/assets/img/pyLDAvis74.png" />
+    </div>
+</div>
+<div class="caption">
+    Different archetypes as seen with pyLDAvis Note that the starting index is 1.
+</div>
+
+<p>To see it for yourselves, <a href="/assets/html/LDA_Visualization_legacy_2020_74_archetypes.html" target="_blank"><b>click here and launch interactive exploration of the figure above</b></a>. Feel free to look at it and also to generate others via the notebook!</p>
+
+<p>For each archetype, represented by a bubble, we get the top 30 most salient card names. The size of a bubble has to do with the percentage of the card names in the corpus. For instance, the archetypes on the right part of the plot (21, 48, or 23) contain cards such as <i>Force of Will</i>, <i>Brainstorm</i>, or <i>Swords to Plowshare</i>. These cards are absolute all-stars in the Legacy formats, being among the most used. Now, if you are curious about the axes, I believe they are not interpretable by themselves: they came out of a multidimensional scaling algorithm.</p>
+
+<p>This representation is trying to maintain information about the archetype’s distances, how closely related they are to each other, as best as it could. It is then possible to see that a lot of archetypes can overlap with each other. Take Archetype 42, the one which matches UB Rogues but contains 2 outliers in <i>Conspicuous Snoop</i> and <i>Boggart Harbinger</i>. Navigating on the plot, you’ll be able to see that it is overlapping with Archetype 18, aka Goblins. These two archetypes share cards such as <i>Cavern of Souls</i> or <i>Thorn of Amethyst</i>. This might a start if you are still obsessed about why two Goblins ended up being part of the UB Rogue archetype.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>To end this post, we can confirm that it is possible to find Magic: The Gathering archetypes with Latent Dirichlet Allocation. For a format as complex a Legacy, it is possible to find common (Goblins, Elves) and less common (Steel and Taxes, Cephalid Breakfast) archetypes. It is even possible to start finding variations such as Grixis Delver and Sultai Delver. However, as seen with the pyLDAvis plot, archetypes can share common cards (<i>Force of Will</i>, <i>Brainstorm</i>, <i>Swords to Plowshare</i>) despite very different gameplay. Interpreting LDA model results is not as straightforward as we think. While I am familiar with the subject here, Magic: The Gathering, I can imagine how troublesome this could be when dealing with something more complex like a corpus of tweets.</p>
+
+<h2 id="to-do">To do</h2>
+
+<p>Things that we could explore:</p>
+<ul>
+  <li>finish identifying the archetypes;</li>
+  <li>for a given new deck, find the most relevant archetypes among the ones that the model found;</li>
+  <li>for two decks, explore how similar they are using the LDA model;</li>
+  <li>hyperparameters tuning;</li>
+  <li>test other topic modeling algorithms (Non-Negative Matrix Factorization for instance).</li>
+</ul>
+
+  </article>
+
+  
+
+</div>
+
+    </div>
+
+    <!-- Footer -->
+
+    
+<footer class="fixed-bottom">
+  <div class="container mt-0">
+    &copy; Copyright 2021 Eight Sense.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+
+    
+  </div>
+</footer>
+
+
+
+  </body>
+
+  <!-- Load Core and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.0/umd/popper.min.js" integrity="sha256-OH05DFHUWzr725HmuHo3pnuvUUn+TJuj8/Qz9xytFEw=" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.17.0/js/mdb.min.js"  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<!-- Load Common JS -->
+<script src="/assets/js/common.js"></script>
+
+<!-- Code Syntax Highlighting -->
+<link rel="stylesheet" href="https://gitcdn.link/repo/jwarby/jekyll-pygments-themes/master/github.css" />
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" integrity="sha256-V8SV2MO1FUb63Bwht5Wx9x6PVHNa02gv8BgH/uH3ung=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js" integrity="sha256-F/Xda58SPdcUCr+xhSGz9MA2zQBPb0ASEYKohl8UCHc=" crossorigin="anonymous"></script>
+<script src="/assets/js/katex.js"></script>
+
+
+
+<!-- Load Mansory & imagesLoaded -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js" integrity="" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
+<!-- Project Cards Layout -->
+<script type="text/javascript">
+  // Init Masonry
+  var $grid = $('.grid').masonry({
+    gutter: 10,
+    horizontalOrder: true,
+    itemSelector: '.grid-item',
+  });
+  // layout Masonry after each image loads
+  $grid.imagesLoaded().progress( function() {
+    $grid.masonry('layout');
+  });
+</script>
+
+
+
+
+
+
+
+</html>
