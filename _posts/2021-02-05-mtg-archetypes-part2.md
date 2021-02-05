@@ -4,11 +4,13 @@ title:  "Topic modeling and Magic: The Gathering (Part 2)"
 date:   2021-02-05
 ---
 
-In the previous blog post, I introduced how it is possible to use topic modeling to find MTG archetypes with **Latent Dirichlet allocation (LDA)**. The code to do so is available on my [GitHub](https://github.com/pfr974/topic_modeling_mtg).  <a href="{{ site.baseurl }}/assets/html/LDA_Visualization_legacy_2020_74_archetypes.html"  target="_blank"><b>To visualise the 74 archetypes found, click here</b></a>. Let me now guide you through the notebook and discuss the results.
+[In the previous blog post](https://pfr974.github.io/blog/2021/mtg-archetypes-part1/), I introduced how it is possible to use topic modeling to find MTG archetypes with **Latent Dirichlet allocation (LDA)**. The code to do so is available on my [GitHub](https://github.com/pfr974/topic_modeling_mtg).  <a href="{{ site.baseurl }}/assets/html/LDA_Visualization_legacy_2020_74_archetypes.html"  target="_blank"><b>To visualise the 74 archetypes found, click here</b></a>. Let me now guide you through the notebook and discuss the results.
 
 ## Gathering and processing the data
 
-The data analyzed in this post consists of 3718 Legacy decklists registered in 2020 on [mtgtop8](https://www.mtgtop8.com). To obtain these decklists, I scrapped the content of mtgtop8; see the [spider_mtg repo](https://github.com/pfr974/spider_mtg) for more details. The decklists are stored in a single file, one decklist per line. We have 75 cards in a deck with 60 cards mainboard and 15 cards sideboard:
+The data analyzed in this post consists of 3718 Legacy decklists registered in 2020 on [mtgtop8](https://www.mtgtop8.com). To obtain these decklists, I scrapped the content of mtgtop8; [see the spider_mtg repo for more details](https://github.com/pfr974/spider_mtg). Also, [if you are interested in more Legacy data, I have done the same for other years](https://github.com/pfr974/mtg-legacy-data). 
+
+The decklists are stored in a single file, one decklist per line. We have 75 cards in a deck with 60 cards mainboard and 15 cards sideboard:
 ```
 "3  Bayou 1  Dryad Arbor 2  Marsh Flats 3  Misty Rainforest 3  Polluted Delta 1  Snow-Covered Swamp 3  Underground Sea 4  Verdant Catacombs 4  Bloodghast 4  Gravecrawler 4  Hedron Crab 4  Hogaak, Arisen Necropolis 2  Putrid Imp 4  Stitcher\\'s Supplier 4  Vengevine 4  Cabal Therapy 2  Careful Study 4  Altar of Dementia 4  Bridge from Below 3  Chain of Vapor 4  Force of Vigor 4  Leyline of the Void 1  Oko, Thief of Crowns 3  Thoughtseize "
 ```
