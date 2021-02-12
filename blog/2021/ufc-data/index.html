@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Eight Sense | Formating a data file and upcoming project about the UFC</title>
+<meta name="description" content="Just some of my random thoughts. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+<!-- Bootstrap & MDB -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.17.0/css/mdb.min.css" integrity="sha256-/SwJ2GDcEt5382i8zqDwl36VJGECxEoIcBIuoLmLR4g=" crossorigin="anonymous" />
+
+<!-- Fonts & Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"  integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons">
+
+<!-- Styles -->
+<link rel="shortcut icon" href="/assets/img/favicon.ico">
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<link rel="canonical" href="/blog/2021/ufc-data/">
+
+<!-- Open Graph -->
+
+
+  </head>
+
+  <body class="fixed-top-nav ">
+
+    <!-- Header -->
+
+    <header>
+
+    <!-- Nav Bar -->
+    <nav id="navbar" class="navbar navbar-light bg-white navbar-expand-sm fixed-top">
+    <div class="container">
+      
+      
+      
+      
+      
+      <a class="navbar-brand title font-weight-lighter" href="http://localhost:4000/">
+       <span class="font-weight-bold">Eight</span>   Sense
+      </a>
+      
+      <!-- Navbar Toogle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">
+              about
+              
+            </a>
+          </li>
+          
+          <!-- Blog -->
+          <li class="nav-item active">
+            <a class="nav-link" href="/blog/">
+              blog
+              
+            </a>
+          </li>
+          
+          <!-- Other pages -->
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="nav-item ">
+              <a class="nav-link" href="/projects/">
+                Projects
+                
+              </a>
+          </li>
+          
+          
+          
+          <li class="nav-item ">
+              <a class="nav-link" href="/publications/">
+                Publications
+                
+              </a>
+          </li>
+          
+          
+          
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+</header>
+
+
+    <!-- Content -->
+
+    <div class="container mt-5">
+      
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Formating a data file and upcoming project about the UFC</h1>
+    <p class="post-meta">February 12, 2021</p>
+  </header>
+
+  <article class="post-content">
+    <p>I have finally decided to give a go at Tableau recently completed the first part of a course on Udemy: <a href="https://www.udemy.com/course/tableau10/">Tableau 2020 A-Z: Hands-On Tableau Training for Data Science</a>. Before starting the second part, <a href="https://www.udemy.com/course/tableau10-advanced/">Tableau 20 Advanced Training: Master Tableau in Data Science</a>, I wanted to play with some new data and apply what I have learned. Since I am a big combat sports enthusiast, I decided to focus this project on the <a href="https://www.ufc.com/">Ultimate Fighting Championship (UFC)</a>.</p>
+
+<p>I recently came across different datasets with a lot of relevant stats for all the fights that have happened in the UFC. The data were obtained using a web scraper, more precisely a Scrapy spider crawling <a href="http://ufcstats.com/statistics/events/completed">ufcstats.com</a>. I wish I was the one that wrote that scraper but all credits due to <a href="https://github.com/fanghuiz/ufc-stats-crawler">fanghuiz</a>. As stated in the readme of the repository, note that the current version of the scraper will crawl the entire website, so it might take some time. For those who wish to get the data but not to run the different spiders, feel free to download them from <a href="https://github.com/pfr974/ufc_project">my repository</a>, Check the file <code>ufcFightStats_formatted.csv</code> and <code>ufcFightInfos.csv</code>. Now allow me to run you through some details:</p>
+
+<p>In fanghuiz’s repository, there are 3 spiders:</p>
+<ul>
+  <li><code><i>ufcFights</i></code></li>
+  <li><code><i>ufcFighters</i></code></li>
+  <li><code><i>upcoming</i></code></li>
+</ul>
+
+<p>The <code><i>ufcFights</i></code> spider returns fight’s data and store them in a <code>.csv</code> file and a <code>.jl</code> (newline-delimited JSON) file: <code>ufcFightInfos.csv</code> and <code>2021-02-11T00-34-21.jl</code>. The <code>.csv</code> ccontains the fight’s metadata: event data, event location, the matchup for a fight,  fighters’ name, winner, etc. The <code>.jl</code> contains stats for every fights: significant strikes attempted, significant strikes landed, takedown, etc.</p>
+
+<p>The <code><i>ufcFighters</i></code> spider returns fighter’s career stats and stores them in a .csv file: reach, height, current weight class, stance, significant strikes landed per minute, etc.</p>
+
+<p>The <code><i>upcoming</i></code> spider returns matchup metadata for an upcoming event: date, fight’s id, red corner’s name, red corner’s id, blue corner’s name, blue corner’s id, location, and weight class.</p>
+
+<p>The first spider is more interesting than the rest for me. Yet, if exploring the file with the fight’s metadata with Tableau went fine, I can’t say the same with the <code>.jl</code> one. Tableau does not read <code>.jl</code> files. So I first thought of simply converting it to a readable format like CSV with <code>pandas.DataFrame.to_csv</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'2021-02-11T00-34-21.jl'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">().</span><span class="n">splitlines</span><span class="p">()</span>
+
+<span class="n">df_inter</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+<span class="n">df_inter</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">'json_element'</span><span class="p">]</span>
+<span class="n">df_inter</span><span class="p">[</span><span class="s">'json_element'</span><span class="p">].</span><span class="nb">apply</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">)</span>
+<span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">df_inter</span><span class="p">[</span><span class="s">'json_element'</span><span class="p">].</span><span class="nb">apply</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">))</span>
+<span class="n">df_final</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'ufcFights.csv'</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <img class="img-fluid rounded z-depth-1" src="/assets/img/bad_table.png" />
+    </div>
+</div>
+<div class="caption">
+    First version of the data table.
+</div>
+
+<p>However, I didn’t take into account the content of the cells. If you look at the screenshots above you can see that all of the cells, except <b>fight_id</b>, contain a list of 2 elements. For instance, the <b>fighter_name</b> cell’s value for the first row is <code>['Ode Osbourne','Jerome Rivera']</code>. What I would like to have is one element per cell. We would want to split a row with information about fighter 1 and fighter 2 into 2. The only element they would have in common would then be <b>fight_id</b>. Fortunately, pandas has a method called <code><b>pandas.DataFrame.explode</b></code> that transforms each element of a list-like to a row. Using this method, I was able to format my table into something more of my liking:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">literal_eval</span>
+
+<span class="k">def</span> <span class="nf">format_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">terms</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">term</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">term</span><span class="p">].</span><span class="nb">apply</span><span class="p">(</span><span class="n">literal_eval</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="n">terms</span> <span class="o">=</span> <span class="p">{</span><span class="s">'fighter_id'</span><span class="p">,</span><span class="s">'fighter_name'</span><span class="p">,</span><span class="s">'fighter_status'</span><span class="p">,</span><span class="s">'kd'</span><span class="p">,</span><span class="s">'n_pass'</span><span class="p">,</span>
+         <span class="s">'n_sub'</span><span class="p">,</span><span class="s">'sig_str_abs'</span><span class="p">,</span><span class="s">'sig_str_att'</span><span class="p">,</span><span class="s">'sig_str_def'</span><span class="p">,</span><span class="s">'sig_str_land'</span><span class="p">,</span>
+         <span class="s">'total_str_abs'</span><span class="p">,</span><span class="s">'total_str_att'</span><span class="p">,</span><span class="s">'total_str_def'</span><span class="p">,</span><span class="s">'total_str_land'</span><span class="p">,</span><span class="s">'td_abs'</span><span class="p">,</span>
+         <span class="s">'td_att'</span><span class="p">,</span><span class="s">'td_def'</span><span class="p">,</span><span class="s">'td_land'</span><span class="p">,</span><span class="s">'head_abs'</span><span class="p">,</span><span class="s">'head_att'</span><span class="p">,</span>
+         <span class="s">'head_def'</span><span class="p">,</span><span class="s">'head_land'</span><span class="p">,</span><span class="s">'body_abs'</span><span class="p">,</span><span class="s">'body_att'</span><span class="p">,</span><span class="s">'body_def'</span><span class="p">,</span>
+         <span class="s">'body_land'</span><span class="p">,</span><span class="s">'leg_abs'</span><span class="p">,</span><span class="s">'leg_att'</span><span class="p">,</span><span class="s">'leg_def'</span><span class="p">,</span><span class="s">'leg_land'</span><span class="p">,</span>
+         <span class="s">'distance_abs'</span><span class="p">,</span><span class="s">'distance_att'</span><span class="p">,</span><span class="s">'distance_def'</span><span class="p">,</span><span class="s">'distance_land'</span><span class="p">,</span><span class="s">'clinch_abs'</span><span class="p">,</span>
+         <span class="s">'clinch_att'</span><span class="p">,</span><span class="s">'clinch_def'</span><span class="p">,</span><span class="s">'clinch_land'</span><span class="p">,</span><span class="s">'ground_abs'</span><span class="p">,</span><span class="s">'ground_att'</span><span class="p">,</span>
+         <span class="s">'ground_def'</span><span class="p">,</span><span class="s">'ground_land'</span><span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'ufcFights.csv'</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">dropna</span><span class="p">()</span> <span class="c1">#Let's get rid of the fights with no stats
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">format_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">terms</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nb">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">explode</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span><span class="p">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">terms</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <img class="img-fluid rounded z-depth-1" src="/assets/img/good_table.png" />
+    </div>
+</div>
+<div class="caption">
+    Second and better version of the data table.
+</div>
+
+<p>Now, it is much easier to navigate through the file with Tableau. For instance, it was really easy to obtain this plot.</p>
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <img class="img-fluid rounded z-depth-1" src="/assets/img/maxblog3.png" />
+    </div>
+</div>
+<div class="caption">
+    Max Holloway vs The rest of the UFC. The best is really blessed ✧٩(•́⌄•́๑).
+</div>
+
+<p>This scatterplot shows numbers of significant strikes attempted vs significant strikes landed for every fighter. Different versions of this plot were shared on social media after an incredible performance of my favourite fighter <a href="https://www.ufc.com/athlete/max-holloway">Max “Blessed” Holloway</a>. In his most recent fight against Kelvin Kattar, he landed 445 significant strikes out of 744 over five rounds! That is a crazy number and because of it, Max Holloway can be spotted straight away on the plot: he is an outlier! This fight and the one against Brian Ortega set him apart from the rest of the UFC!</p>
+
+<p>What started as a quick way to play around with Tableau turned into a much more fun project. I am looking forwards to exploring more of these UFC’s data!</p>
+
+  </article>
+
+  
+
+</div>
+
+    </div>
+
+    <!-- Footer -->
+
+    
+<footer class="fixed-bottom">
+  <div class="container mt-0">
+    &copy; Copyright 2021 Eight Sense.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+
+    
+  </div>
+</footer>
+
+
+
+  </body>
+
+  <!-- Load Core and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.0/umd/popper.min.js" integrity="sha256-OH05DFHUWzr725HmuHo3pnuvUUn+TJuj8/Qz9xytFEw=" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.17.0/js/mdb.min.js"  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<!-- Load Common JS -->
+<script src="/assets/js/common.js"></script>
+
+<!-- Code Syntax Highlighting -->
+<link rel="stylesheet" href="https://gitcdn.link/repo/jwarby/jekyll-pygments-themes/master/github.css" />
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" integrity="sha256-V8SV2MO1FUb63Bwht5Wx9x6PVHNa02gv8BgH/uH3ung=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js" integrity="sha256-F/Xda58SPdcUCr+xhSGz9MA2zQBPb0ASEYKohl8UCHc=" crossorigin="anonymous"></script>
+<script src="/assets/js/katex.js"></script>
+
+
+
+<!-- Load Mansory & imagesLoaded -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js" integrity="" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
+<!-- Project Cards Layout -->
+<script type="text/javascript">
+  // Init Masonry
+  var $grid = $('.grid').masonry({
+    gutter: 10,
+    horizontalOrder: true,
+    itemSelector: '.grid-item',
+  });
+  // layout Masonry after each image loads
+  $grid.imagesLoaded().progress( function() {
+    $grid.masonry('layout');
+  });
+</script>
+
+
+
+
+
+
+
+</html>
