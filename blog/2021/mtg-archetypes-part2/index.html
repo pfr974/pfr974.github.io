@@ -44,7 +44,7 @@
       
       
       
-      <a class="navbar-brand title font-weight-lighter" href="https://pfr974.github.io/">
+      <a class="navbar-brand title font-weight-lighter" href="http://localhost:4000/">
        <span class="font-weight-bold">Eight</span>   Sense
       </a>
       
@@ -134,7 +134,7 @@
 </code></pre></div></div>
 <p>Our <strong>document</strong> here is a decklist such as the one above. The <strong>corpus</strong>, a collection of documents, consists of all the decklists. For the <strong>vocabulary</strong>, the set of all words used in the corpus, we want to associate each card name in it with a unique integer ID. We do this using <code><i>gensim.corpora.Dictionary</i></code>. Following the <a href="https://radimrehurek.com/gensim/auto_examples/core/run_corpora_and_vector_spaces.html">core concepts of gensim</a>, we take an extra step by constructing a dictionary without loading all the decklists into memory:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dictionary</span> <span class="o">=</span> <span class="n">gensim</span><span class="p">.</span><span class="n">corpora</span><span class="p">.</span><span class="n">Dictionary</span><span class="p">([</span><span class="n">x</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">r"[\d]+"</span><span class="p">,</span> <span class="n">line</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">))]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s">'single_legacy_2020.txt'</span><span class="p">))</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dictionary</span> <span class="o">=</span> <span class="n">gensim</span><span class="p">.</span><span class="n">corpora</span><span class="p">.</span><span class="n">Dictionary</span><span class="p">([</span><span class="n">x</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s">"[\d]+"</span><span class="p">,</span> <span class="n">line</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">))]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s">'single_legacy_2020.txt'</span><span class="p">))</span>
 <span class="n">once_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">tokenid</span> <span class="k">for</span> <span class="n">tokenid</span><span class="p">,</span> <span class="n">docfreq</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">dictionary</span><span class="p">.</span><span class="n">dfs</span><span class="p">)</span> <span class="k">if</span> <span class="n">docfreq</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">dictionary</span><span class="p">.</span><span class="n">filter_tokens</span><span class="p">(</span><span class="n">once_ids</span><span class="p">)</span>  <span class="c1"># remove cards that appear only once
 </span><span class="n">dictionary</span><span class="p">.</span><span class="n">compactify</span><span class="p">()</span>  <span class="c1"># remove gaps in id sequence after words that were removed
@@ -146,7 +146,7 @@
     <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s">'single_legacy_2020.txt'</span><span class="p">):</span>
             <span class="n">decklist</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\"</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span> <span class="c1"># remove start and end tokens
-</span>            <span class="n">decklist</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">r"([\d]+)"</span><span class="p">,</span> <span class="n">decklist</span><span class="p">)</span> <span class="c1"># split by numbers and card names
+</span>            <span class="n">decklist</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s">"([\d]+)"</span><span class="p">,</span> <span class="n">decklist</span><span class="p">)</span> <span class="c1"># split by numbers and card names
 </span>            <span class="n">decklist</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">decklist</span><span class="p">]</span> <span class="c1"># remove whitespace
 </span>            <span class="n">decklist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">decklist</span><span class="p">))</span> <span class="c1"># remove empty words
 </span>            <span class="n">cleaned_decklist</span> <span class="o">=</span> <span class="p">[]</span> 
@@ -518,7 +518,7 @@ pyLDAvis.save_html(vis_data, 'LDA_Visualization_legacy_2020_74_archetypes.html'.
     
 <footer class="fixed-bottom">
   <div class="container mt-0">
-    &copy; Copyright 2021 Eight Sense.
+    &copy; Copyright 2023 Eight Sense.
     Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
 
     
