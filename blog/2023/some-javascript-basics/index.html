@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Eight Sense | Some JavaScript Basics</title>
+<meta name="description" content="Just some of my random thoughts. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
+
+<!-- Bootstrap & MDB -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.17.0/css/mdb.min.css" integrity="sha256-/SwJ2GDcEt5382i8zqDwl36VJGECxEoIcBIuoLmLR4g=" crossorigin="anonymous" />
+
+<!-- Fonts & Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"  integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons">
+
+<!-- Styles -->
+<link rel="shortcut icon" href="/assets/img/favicon.ico">
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<link rel="canonical" href="/blog/2023/some-javascript-basics/">
+
+<!-- Open Graph -->
+
+
+  </head>
+
+  <body class="fixed-top-nav ">
+
+    <!-- Header -->
+
+    <header>
+
+    <!-- Nav Bar -->
+    <nav id="navbar" class="navbar navbar-light bg-white navbar-expand-sm fixed-top">
+    <div class="container">
+      
+      
+      
+      
+      
+      <a class="navbar-brand title font-weight-lighter" href="http://localhost:4000/">
+       <span class="font-weight-bold">Eight</span>   Sense
+      </a>
+      
+      <!-- Navbar Toogle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">
+              about
+              
+            </a>
+          </li>
+          
+          <!-- Blog -->
+          <li class="nav-item active">
+            <a class="nav-link" href="/blog/">
+              blog
+              
+            </a>
+          </li>
+          
+          <!-- Other pages -->
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="nav-item ">
+              <a class="nav-link" href="/projects/">
+                Projects
+                
+              </a>
+          </li>
+          
+          
+          
+          <li class="nav-item ">
+              <a class="nav-link" href="/publications/">
+                Publications
+                
+              </a>
+          </li>
+          
+          
+          
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+</header>
+
+
+    <!-- Content -->
+
+    <div class="container mt-5">
+      
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Some JavaScript Basics</h1>
+    <p class="post-meta">November 2, 2023</p>
+  </header>
+
+  <article class="post-content">
+    <h1 id="essential-and-basic-javascript-concepts">Essential and basic JavaScript concepts</h1>
+
+<p>It’s time for me to learn Javascript! I wasn’t too sure where to start and came across multiple resources. Before following a paid course, I thought I could check what’s available for free on Codeacademy and came accross this <a href="https://www.codecademy.com/courses/introduction-to-back-end-programming/articles/javascript-for-node-js">JavaScript for Node.js</a> article. What’s following are some of the notes I took while reading it. The associated github repository can be found <a href="https://github.com/pfr974/codeAcademy_intro_back_end_programming_javascript">here</a>. It’s pretty much what’s inside the <code class="language-plaintext highlighter-rouge">README.md</code> file.</p>
+
+<h2 id="1-arrow-expressions">1] Arrow Expressions</h2>
+
+<p>In <a href="https://github.com/pfr974/codeAcademy_intro_back_end_programming_javascript/blob/main/arrow_expressions_demo.js"><code class="language-plaintext highlighter-rouge">arrow_expressions_demo.js</code></a>, I first define an <strong>anonymous</strong> arrow function. We do not use the function declaration and simply go with <code class="language-plaintext highlighter-rouge">() =&gt; { }</code>. We can pass arguments to an arrow expression between the parenthesis <code class="language-plaintext highlighter-rouge">(())</code>.</p>
+
+<p>Following Codeacademy lecture, we could simply write:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello, I am an anonymous arrow expression function!</span><span class="dl">'</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>However, running this code via something like <code class="language-plaintext highlighter-rouge">node arrow_expressions_demo.js</code> would not print anything to the console. Instead, we would get:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Function <span class="o">(</span>anonymous<span class="o">)]</span>
+</code></pre></div></div>
+
+<p>This is a bit confusing at first because we are so used to see examples giving “Hello World!” printed to the console within the first minute of learning about a language.</p>
+
+<p>To actually see this output, we need to invoke the function. We achieve this with:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// We define AND invoke an anonymous arrow expression function</span>
+<span class="p">(()</span>  <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello, I am an anonymous arrow expression function!</span><span class="dl">'</span><span class="p">))();</span>
+</code></pre></div></div>
+
+<p>giving us:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello, I am an anonymous arrow expression <span class="k">function</span><span class="o">!</span>
+</code></pre></div></div>
+<p>After this first example, I define a <strong>named</strong> arrow function <code class="language-plaintext highlighter-rouge">namedArrowFunction</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">namedArrowFunction</span> <span class="o">=</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Hello, my name is </span><span class="p">${</span><span class="nx">name</span><span class="p">}</span><span class="s2">! I am not an anonymous function anymore.`</span><span class="p">)</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>and we invoke it with:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">namedArrowFunction</span><span class="p">(</span><span class="dl">'</span><span class="s1">Anon</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>giving us:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello, my name is Anon! I am not an anonymous <span class="k">function </span>anymore.
+</code></pre></div></div>
+
+<p>Please note that the use of backticks allows for embedded expressions, i.e. <code class="language-plaintext highlighter-rouge">${name}</code>. This replaces <code class="language-plaintext highlighter-rouge">${name}</code> with the value of the variable <code class="language-plaintext highlighter-rouge">name</code> that is passed to the <code class="language-plaintext highlighter-rouge">namedArrowFunction</code> function. This is a feature of the ES6 version mentioned in the lecture.</p>
+
+<h2 id="2-asynchronous-concept">2] Asynchronous Concept</h2>
+
+<h3 id="21-promises-start">2.1] Promises, start</h3>
+
+<p>To illustrate the concept of asynchronous code in the context of Javascript, the lecture decides to introduce us to <strong>Promises</strong>.</p>
+
+<p>As the name hints at, a promise is an outcome that is not “available” yet, a placeholder. It is the output of an asynchronous operation. In the <a href="https://github.com/pfr974/codeAcademy_intro_back_end_programming_javascript/blob/main/asynchronous_concept_promises.js"><code class="language-plaintext highlighter-rouge">asynchronous_concept_promises.js</code></a> file, we can read:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// We create a new promise object and assign it to the testLuck variable.</span>
+<span class="kd">const</span> <span class="nx">testLuck</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">Lucky winner!</span><span class="dl">'</span><span class="p">)</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">reject</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Unlucky!</span><span class="dl">'</span><span class="p">))</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">testLuck</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">message</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="c1">// Log the resolved value of the Promise</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="c1">// Log the rejected error of the Promise</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>A <code class="language-plaintext highlighter-rouge">Promise</code> can have three different outcomes:</p>
+<ul>
+  <li><strong>pending</strong>, the result is undefined and the expression is waiting for a result;</li>
+  <li><strong>fulfilled</strong>, the promise has been completed successfully and returned a value;</li>
+  <li><strong>rejected</strong>, the promise has been completed unsuccessfully and returned an error object as a result.</li>
+</ul>
+
+<p>In the example provided, a new <code class="language-plaintext highlighter-rouge">Promise</code> object is created and stored into a <code class="language-plaintext highlighter-rouge">testLuck</code> constant. It takes a function with two arguments, <code class="language-plaintext highlighter-rouge">resolve</code> and <code class="language-plaintext highlighter-rouge">reject</code>. The promise is fulfilled or rejected based on a random generated number being smaller than 0.5 or not.</p>
+
+<p>The bit after the <code class="language-plaintext highlighter-rouge">testLuck</code> constant declaration is a chain of two methods, <code class="language-plaintext highlighter-rouge">then</code> and <code class="language-plaintext highlighter-rouge">catch</code>. The <code class="language-plaintext highlighter-rouge">then</code> method is called when the promise is fulfilled, and the <code class="language-plaintext highlighter-rouge">catch</code> method is called when the promise is rejected.</p>
+
+<p>In the case of a fullfilled promise, the output is:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>╰─ node asynchronous_concept_promises.js                                                    ─╯
+Lucky winner!
+</code></pre></div></div>
+
+<p>and in the case of a rejected promise, the output is:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>╰─ node asynchronous_concept_promises.js                                                    ─╯
+Error: Unlucky!
+    at /Users/pfr974/code/personal/codeAcademy_intro_back_end_programming_javascript/asynchronous_concept_promises.js:6:12
+    at new Promise <span class="o">(</span>&lt;anonymous&gt;<span class="o">)</span>
+    at Object.&lt;anonymous&gt; <span class="o">(</span>/Users/pfr974/code/personal/codeAcademy_intro_back_end_programming_javascript/asynchronous_concept_promises.js:2:18<span class="o">)</span>
+    at Module._compile <span class="o">(</span>internal/modules/cjs/loader.js:1085:14<span class="o">)</span>
+    at Object.Module._extensions..js <span class="o">(</span>internal/modules/cjs/loader.js:1114:10<span class="o">)</span>
+    at Module.load <span class="o">(</span>internal/modules/cjs/loader.js:950:32<span class="o">)</span>
+    at Function.Module._load <span class="o">(</span>internal/modules/cjs/loader.js:790:14<span class="o">)</span>
+    at Function.executeUserEntryPoint <span class="o">[</span>as runMain] <span class="o">(</span>internal/modules/run_main.js:76:12<span class="o">)</span>
+    at internal/main/run_main_module.js:17:47
+</code></pre></div></div>
+
+<p>We should note that this is an abstraction of the concept of asynchronous code and <code class="language-plaintext highlighter-rouge">Promise</code>. As far as I understand, the code here appears to be executed synchronously/instantaneously due to its relative simplicity.</p>
+
+<p>We could try to adapt this example by introducing an artifical delay in an alternative version defined in a separate file, e.g. <a href="https://github.com/pfr974/codeAcademy_intro_back_end_programming_javascript/blob/main/asynchronous_concept_promises_alternatives.js"><code class="language-plaintext highlighter-rouge">asynchronous_concept_promises_alternative.js</code></a>.</p>
+
+<h3 id="22-promises-slightly-more-illustrative">2.2] Promises, slightly more illustrative</h3>
+
+<p>The code is the following:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Creating a new Promise with an artificial delay using setTimeout.</span>
+<span class="c1">// See https://developer.mozilla.org/en-US/docs/Web/API/setTimeout</span>
+<span class="kd">const</span> <span class="nx">testLuck</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">setTimeout</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="p">{</span> 
+      <span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">Lucky winner!</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">reject</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Unlucky!</span><span class="dl">'</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="mi">5000</span><span class="p">);</span>  <span class="c1">// 5000 milliseconds delay, that is 5 seconds</span>
+<span class="p">});</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Checking your luck...</span><span class="dl">'</span><span class="p">);</span>  <span class="c1">// Log immediately</span>
+
+<span class="nx">testLuck</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">message</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>  <span class="c1">// Log the resolved promise output after 5 seconds</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>  <span class="c1">// Log the rejected promise output after 5 seconds</span>
+<span class="p">});</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Waiting for the result...</span><span class="dl">'</span><span class="p">);</span>  <span class="c1">// Log immediately as well</span>
+</code></pre></div></div>
+
+<p>As before, we create a new <code class="language-plaintext highlighter-rouge">Promise</code> object and store it into a <code class="language-plaintext highlighter-rouge">testLuck</code> constant. However, the setTimeout method introduces an artificial delay of 5 seconds before deciding if we fulfilled or rejected the promise. The chain of <code class="language-plaintext highlighter-rouge">catch</code> and <code class="language-plaintext highlighter-rouge">then</code> methods works the same way as before, with the addition of two extra console logs.</p>
+
+<p>The chain of events is clearer here in my opinion:</p>
+
+<p>1) The first console log is executed immediately
+2) A new <code class="language-plaintext highlighter-rouge">Promise</code> object is created and stored into a constant <code class="language-plaintext highlighter-rouge">testLuck</code>. Inside, <a href="https://developer.mozilla.org/en-US/docs/Web/API/setTimeout"><code class="language-plaintext highlighter-rouge">setTimeout</code></a> adds an artificial delay of 5 seconds before deciding whether to resolve or reject the promise. 
+3) <strong>The second console log is also excuted immediately, not waiting for the promise to be resolved or rejected.</strong></p>
+
+<p>This gives us the following output:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node asynchronous_concept_promises_alternatives.js                                                                                                                                                          ─╯
+Checking your luck...
+Waiting <span class="k">for </span>the result...
+</code></pre></div></div>
+
+<p>4) After 5 seconds, the promise either resolves with:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>─ node asynchronous_concept_promises_alternatives.js                                                                                                                                                          ─╯
+Checking your luck...
+Waiting <span class="k">for </span>the result...
+Lucky winner!
+</code></pre></div></div>
+
+<p>or is rejected with:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>─ node asynchronous_concept_promises_alternatives.js                                                                                                                                                          ─╯
+Checking your luck...
+Waiting <span class="k">for </span>the result...
+Error: Unlucky!
+    at Timeout._onTimeout <span class="o">(</span>/Users/pfr974/code/personal/codeAcademy_intro_back_end_programming_javascript/asynchronous_concept_promises_alternatives.js:8:14<span class="o">)</span>
+    at listOnTimeout <span class="o">(</span>internal/timers.js:557:17<span class="o">)</span>
+    at processTimers <span class="o">(</span>internal/timers.js:500:7<span class="o">)</span>
+</code></pre></div></div>
+
+  </article>
+
+  
+
+</div>
+
+    </div>
+
+    <!-- Footer -->
+
+    
+<footer class="fixed-bottom">
+  <div class="container mt-0">
+    &copy; Copyright 2023 Eight Sense.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+
+    
+  </div>
+</footer>
+
+
+
+  </body>
+
+  <!-- Load Core and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.0/umd/popper.min.js" integrity="sha256-OH05DFHUWzr725HmuHo3pnuvUUn+TJuj8/Qz9xytFEw=" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.17.0/js/mdb.min.js"  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<!-- Load Common JS -->
+<script src="/assets/js/common.js"></script>
+
+<!-- Code Syntax Highlighting -->
+<link rel="stylesheet" href="https://gitcdn.link/repo/jwarby/jekyll-pygments-themes/master/github.css" />
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" integrity="sha256-V8SV2MO1FUb63Bwht5Wx9x6PVHNa02gv8BgH/uH3ung=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js" integrity="sha256-F/Xda58SPdcUCr+xhSGz9MA2zQBPb0ASEYKohl8UCHc=" crossorigin="anonymous"></script>
+<script src="/assets/js/katex.js"></script>
+
+
+
+<!-- Load Mansory & imagesLoaded -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js" integrity="" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
+<!-- Project Cards Layout -->
+<script type="text/javascript">
+  // Init Masonry
+  var $grid = $('.grid').masonry({
+    gutter: 10,
+    horizontalOrder: true,
+    itemSelector: '.grid-item',
+  });
+  // layout Masonry after each image loads
+  $grid.imagesLoaded().progress( function() {
+    $grid.masonry('layout');
+  });
+</script>
+
+
+
+
+
+
+
+</html>
