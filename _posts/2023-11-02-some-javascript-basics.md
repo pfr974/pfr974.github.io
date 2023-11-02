@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Some JavaScript Basics)"
-date:   2023-10-02
+title:  "Some JavaScript Basics"
+date:   2023-11-02
 ---
 
 
